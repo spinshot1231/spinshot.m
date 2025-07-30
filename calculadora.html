@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpinShot Mx | Calculadora de Eventos</title>
+    
+    <!-- SEO: Meta Descripción -->
+    <meta name="description" content="Calculadora interactiva para cotizar y personalizar paquetes de cabina de fotos 360 y espejo mágico para eventos en Uruapan, Michoacán. Configura tu paquete ideal.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- SEO: Datos Estructurados (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "SpinShot Mx",
+      "image": "",
+      "telephone": "+524522195520",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Uruapan",
+        "addressRegion": "Michoacán",
+        "addressCountry": "MX"
+      },
+      "description": "Servicio de renta de cabina de fotos 360 y espejo mágico para eventos sociales y corporativos en Uruapan y la región.",
+      "servesCuisine": "",
+      "priceRange": "$$",
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Renta de Cabina de Fotos 360"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Renta de Espejo Mágico Fotográfico"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Fondo oscuro */
+            color: #E5E7EB; /* Texto claro */
+        }
+        .accent-color { color: #FBBF24; } /* Acento dorado */
+        .bg-accent { background-color: #FBBF24; }
+        .border-accent { border-color: #FBBF24; }
+
+        .service-tab.active {
+            background-color: #FBBF24;
+            color: #111827;
+            font-weight: 700;
+        }
+        .service-tab { transition: all 0.3s ease; }
+        .package-card, .addon-item {
+            border: 1px solid #374151;
+            transition: all 0.3s ease;
+        }
+        .package-card.selected, .addon-item.selected {
+            border-color: #FBBF24;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+            transform: translateY(-5px);
+        }
+        .summary-item { border-bottom: 1px dashed #374151; }
+        .total-price { transition: all 0.3s ease; }
+
+        .comparison-table .pkg-name { writing-mode: vertical-rl; text-orientation: mixed; }
+        
+        details > summary {
+            list-style: none;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        details[open] summary .plus-icon {
+            transform: rotate(45deg);
+        }
+        /* Custom styles for the range slider */
+        input[type=range].accent-yellow-400::-webkit-slider-thumb {
+            background-color: #FBBF24;
+        }
+        input[type=range].accent-yellow-400::-moz-range-thumb {
+            background-color: #FBBF24;
+        }
+        
+        /* Animation for price updates */
+        @keyframes price-update {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); color: #FEF9C3; }
+            100% { transform: scale(1); }
+        }
+        .price-updated {
+            animation: price-update 0.4s ease-in-out;
+        }
+        
+        /* Estilos para contenido colapsable */
+        .details-list {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .details-list.expanded {
+            max-height: 500px; /* Valor suficientemente grande */
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <!-- SEO: H1 principal -->
+            <h1 class="text-4xl md:text-5xl font-black mb-2">Configura Tu Evento Perfecto ✨</h1>
+            <p class="text-lg text-gray-400">Selecciona un servicio, elige tu paquete y añade los extras que desees.</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <section id="service-selection" class="mb-8">
+                    <h2 class="text-2xl font-bold mb-4 accent-color">1. Elige el Servicio</h2>
+                    <!-- Accesibilidad: role="tablist" para el contenedor de pestañas -->
+                    <div id="service-tabs" role="tablist" aria-label="Selección de servicio" class="flex bg-gray-800 rounded-lg p-1 space-x-1"></div>
+                </section>
+
+                <div id="service-content">
+                    <!-- Los paneles de contenido (tabpanel) se generarán aquí -->
+                </div>
+            </div>
+
+            <aside class="lg:col-span-1">
+                <div id="summary-section" class="bg-gray-800 rounded-xl shadow-lg sticky top-8 p-6">
+                    <h2 class="text-2xl font-bold mb-6 text-center accent-color">Resumen de Cotización</h2>
+                    <div id="summary-items" class="space-y-3 mb-6 min-h-[100px]">
+                        <p id="summary-placeholder" class="text-gray-400 text-center pt-8">Tus selecciones aparecerán aquí.</p>
+                    </div>
+                    <div class="border-t-2 border-dashed border-gray-600 pt-4">
+                        <div class="flex justify-between items-center text-2xl font-black">
+                            <span>Total:</span>
+                            <span id="total-price" class="accent-color">$0.00 MXN</span>
+                        </div>
+                    </div>
+                    <a id="whatsapp-button" href="#" target="_blank" class="block text-center mt-6 w-full bg-accent text-gray-900 font-bold py-3 rounded-lg hover:bg-yellow-400 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        ✅ Contactar por WhatsApp para Reservar
+                    </a>
+                </div>
+            </aside>
+        </main>
+    </div>
+    
+    <section id="budget-adjuster" class="py-12 bg-gray-900/50 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold accent-color mb-6">¿Tienes un presupuesto diferente?</h2>
+            <p class="text-gray-400 max-w-3xl mx-auto mb-8">
+                ¡Nos ajustamos a ti! Dinos cuál es tu presupuesto y crearemos un paquete a la medida de tu evento.
+            </p>
+            <div class="max-w-2xl mx-auto bg-gray-800 p-8 rounded-xl border border-gray-700 shadow-lg">
+                <div class="flex justify-between items-center text-gray-400 font-bold text-sm">
+                    <span>$1,500</span>
+                    <span>$15,000</span>
+                </div>
+                <input id="budget-slider" type="range" min="1000" max="15000" value="7500" step="500" class="w-full h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer my-4 accent-yellow-400">
+                <p class="text-xl text-gray-300">Mi presupuesto aproximado es de:</p>
+                <p class="text-4xl font-black accent-color my-2">$<span id="budget-value">7,500</span> MXN</p>
+                <a id="budget-whatsapp-button" href="#" target="_blank" class="inline-block text-center mt-6 bg-green-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-500 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    Contactar por Presupuesto
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="reservation-info" class="py-12 bg-gray-900 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold accent-color mb-6">Importante: Para Reservar tu Fecha</h2>
+            <p class="text-gray-400 max-w-3xl mx-auto mb-8">
+                Para asegurar la fecha de tu evento, requerimos un pago de anticipo. Este monto se descuenta del total de tu paquete.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                    <h3 class="text-xl font-bold mb-2">📸 Cabina 360</h3>
+                    <p class="text-gray-400 mb-4">Anticipo de Reserva</p>
+                    <p class="text-3xl font-black accent-color">$500 <span class="text-lg font-semibold text-gray-400">MXN</span></p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                    <h3 class="text-xl font-bold mb-2">🪄 Espejo Mágico</h3>
+                    <p class="text-gray-400 mb-4">Anticipo de Reserva</p>
+                    <p class="text-3xl font-black accent-color">$700 <span class="text-lg font-semibold text-gray-400">MXN</span></p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                    <h3 class="text-xl font-bold mb-2">✨ Paquetes DUO</h3>
+                    <p class="text-gray-400 mb-4">Anticipo de Reserva</p>
+                    <p class="text-3xl font-black accent-color">$900 <span class="text-lg font-semibold text-gray-400">MXN</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="comparison-section-wrapper"></div>
+
+    <section id="video-promo" class="py-12 bg-gray-800">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center accent-color mb-8">Mira Nuestros Servicios en Acción</h2>
+            
+            <!-- CONTENEDOR DE VIDEOS -->
+            <div id="video-container" class="max-w-4xl mx-auto rounded-lg overflow-hidden shadow-lg border-2 border-accent bg-gray-700">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-0">
+                    <!-- Video 1 -->
+                    <video id="promo-video-player" class="w-full" controls autoplay muted loop playsinline>
+                        <source src="image/promo-video.mp4" type="video/mp4">
+                    </video>
+                    <!-- Video 2 -->
+                    <video id="promo-video-2" class="w-full" controls autoplay muted loop playsinline>
+                        <source src="image/video2.mp4" type="video/mp4">
+                    </video>
+                    <!-- Video 3 -->
+                    <video id="promo-video-3" class="w-full" controls autoplay muted loop playsinline>
+                        <source src="image/video3.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+
+            <!-- CONTENEDOR DE IMÁGENES -->
+            <div class="max-w-4xl mx-auto mt-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <img src="image/cabina360.jpeg" alt="Imagen de un evento con la cabina de fotos." class="w-full h-auto rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+                    <img src="image/espejomagico.jpeg" alt="Invitados divirtiéndose con el espejo mágico." class="w-full h-auto rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+                    <img src="image/impresiones.jpeg" alt="Montaje de un paquete DUO en una fiesta." class="w-full h-auto rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="faq" class="py-12 bg-gray-900">
+        <div class="container mx-auto px-4 max-w-3xl">
+            <h2 class="text-3xl font-bold text-center accent-color mb-8">Preguntas Frecuentes</h2>
+            <div class="space-y-4">
+                <div class="bg-gray-800 rounded-lg">
+                    <details class="p-4" on-toggle="this.querySelector('summary').setAttribute('aria-expanded', this.open)">
+                        <summary class="font-semibold cursor-pointer flex justify-between items-center" aria-expanded="false">
+                            ¿Con cuánto tiempo de anticipación debo reservar?
+                            <span class="plus-icon text-accent-color text-2xl transform transition-transform duration-300">+</span>
+                        </summary>
+                        <p class="mt-4 text-gray-400">Recomendamos reservar al menos con 2 a 4 semanas de anticipación, especialmente en temporada alta (bodas, graduaciones, fin de año), para asegurar que tengamos tu fecha disponible.</p>
+                    </details>
+                </div>
+                <div class="bg-gray-800 rounded-lg">
+                    <details class="p-4" on-toggle="this.querySelector('summary').setAttribute('aria-expanded', this.open)">
+                        <summary class="font-semibold cursor-pointer flex justify-between items-center" aria-expanded="false">
+                            ¿Qué necesito para la instalación?
+                             <span class="plus-icon text-accent-color text-2xl transform transition-transform duration-300">+</span>
+                        </summary>
+                        <p class="mt-4 text-gray-400">Solo necesitamos un espacio designado (recomendamos 3x3 metros para la Cabina 360 y 2x3 para el Espejo) y un contacto de luz estándar cercano. Nosotros nos encargamos de todo lo demás.</p>
+                    </details>
+                </div>
+                <div class="bg-gray-800 rounded-lg">
+                    <details class="p-4" on-toggle="this.querySelector('summary').setAttribute('aria-expanded', this.open)">
+                        <summary class="font-semibold cursor-pointer flex justify-between items-center" aria-expanded="false">
+                            ¿La utilería viene incluida?
+                             <span class="plus-icon text-accent-color text-2xl transform transition-transform duration-300">+</span>
+                        </summary>
+                        <p class="mt-4 text-gray-400">¡Sí! Todos nuestros paquetes incluyen una divertida selección de utilería como sombreros, lentes, letreros y más. Los paquetes premium incluyen utilería temática y de mayor variedad.</p>
+                    </details>
+                </div>
+                <div class="bg-gray-800 rounded-lg">
+                    <details class="p-4" on-toggle="this.querySelector('summary').setAttribute('aria-expanded', this.open)">
+                        <summary class="font-semibold cursor-pointer flex justify-between items-center" aria-expanded="false">
+                            ¿Manejan eventos fuera de Uruapan?
+                             <span class="plus-icon text-accent-color text-2xl transform transition-transform duration-300">+</span>
+                        </summary>
+                        <p class="mt-4 text-gray-400">Claro que sí. Damos servicio en toda la región. Los eventos fuera de la ciudad de Uruapan generan un costo extra por transporte, el cual se cotiza de forma transparente según la distancia.</p>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                console.log("Iniciando calculadora de eventos v5...");
+
+                // --- CONSTANTES Y CONFIGURACIÓN ---
+                const WHATSAPP_NUMBER = '524522195520';
+                const MIN_BUDGET = 1500;
+                const SUMMARY_FEATURES_COUNT = 4;
+
+                const APP_DB = {
+                    packages: [
+                        { id: 'c1', service: 'cabina', name: '🚀 Paquete Express 360', price: 1500, features: ['⏱️ 1.5 Horas de servicio', '💡 Iluminación Profesional', '👤 Operador presente', '📲 Entrega por QR', '💾 Galería Digital (Online 1 mes)'] },
+                        { id: 'c2', service: 'cabina', name: '✨ Paquete Esencial 360', price: 2099, originalPrice: 2849, features: ['⏱️ 2 Horas de servicio', '💡 Iluminación Profesional', '👤 Operador presente', '📲 Entrega por QR', '🖥️ Pantalla y música personalizada', '🎬 Alfombra roja', '💾 Galería Digital (Online 1 mes)', '🎨 Plantilla 100% Personalizada para el evento'], offerDetails: { tag: '🚀 OFERTA APERTURA' }},
+                        { id: 'c3', service: 'cabina', name: '👑 Paquete Fiesta Total 360', price: 2699, originalPrice: 3449, features: ['⏱️ 2 Horas de servicio', '💡 Iluminación Profesional', '👤 Operador presente', '📲 Entrega por QR', '🖥️ Pantalla y música personalizada', '🎬 Alfombra roja', '💡 Iluminación premium', '🎩 Gran variedad de utilería', '💸 Pistola de billetes y 🫧 burbujas', '💾 Galería Digital (Online 1 mes)', '🎨 Plantilla 100% Personalizada para el evento'], offerDetails: { tag: '🚀 OFERTA APERTURA' } },
+                        
+                        { id: 'e1', service: 'espejo', name: '📱 Exprés Digital VIP', price: 2199, features: ['⏱️ 2 Horas de servicio', '📸 Fotos Digitales ILIMITADAS', '📲 Entrega por QR', '💡 Iluminación LED', '🎭 Utilería básica', '🎬 Montaje VIP (Alfombra, Fondo)', '🫧 Pistola de Burbujas', '💾 Galería Digital (Online 1 mes)'] },
+                        { id: 'e2', service: 'espejo', name: '🖨️ Paquete Plata', price: 3199, originalPrice: 3949, features: ['⏱️ 2 Horas de servicio', '📸 Fotos Digitales ILIMITADAS', '🖼️ Impresiones ILIMITADAS', '📲 Entrega por QR', '📷 Cámara Profesional', '💡 Iluminación LED', '🎬 Montaje VIP (Alfombra, Fondo, Postes Unifila)', '🎭 Utilería básica', '💸 Pistola de Billetes', '🫧 Pistola de Burbujas', '🎨 Plantilla de diseño estándar', '💾 Galería Digital (Online 1 mes)', '🎨 Plantilla 100% Personalizada para el evento', '🎉 15 Espumas para invitados'], 
+                          offerDetails: { tag: '🚀 OFERTA APERTURA', startDate: '2025-07-01', endDate: '2025-07-31' } },
+                        { id: 'e3', service: 'espejo', name: '💎 Paquete Diamante VIP', price: 4399, originalPrice: 5149, features: ['⏱️ 3 Horas de servicio', '📸 Fotos Digitales ILIMITADAS', '🖼️ Impresiones ILIMITADAS', '📲 Entrega por QR', '📷 Cámara Profesional', '🖥️ Pantalla de bienvenida', '💡 Iluminación LED', '🎬 Montaje VIP (Alfombra, Fondo, Postes Unifila)', '🎩 Utilería Premium', '📖 Álbum de Recuerdos (Guestbook)', '💸 Pistola de Billetes', '🫧 Pistola de Burbujas', '🎨 Plantilla 100% Personalizada', '💾 Galería Digital (Online 1 mes)', '🎉 15 Espumas para invitados'], offerDetails: { tag: '🚀 OFERTA APERTURA' } },
+
+                        { id: 'd1', service: 'duo', name: '🎉 DUO Dinámico', price: 3899, features: ['✨ Cabina 360 + Espejo Mágico', '⏱️ 2 Horas de servicio simultáneo', '🎬 Videos 360 ILIMITADOS', '📸 Fotos Digitales ILIMITADAS (del Espejo)', '📲 Entrega por QR para ambos', '🎬 Montaje VIP para ambos servicios', '🎩 Utilería (limitada)', '👥 2 Operadores de staff', '💾 Galería Digital (Online 1 mes)', '🎨 Plantilla 100% Personalizada para el evento'] },
+                        { id: 'd2', service: 'duo', name: '🔥 DUO Fiesta Premium', price: 5299, originalPrice: 6049, features: ['✨ Cabina 360 + Espejo Mágico', '⏱️ 2 Horas de servicio simultáneo', '🎬 Videos 360 ILIMITADOS', '📸 Fotos Digitales ILIMITADAS (del Espejo)', '🖼️ Impresiones ILIMITADAS (del Espejo)', '📲 Entrega por QR para ambos', '🎬 Montaje VIP para ambos servicios', '🎩 Gran variedad de utilería', '💸 Pistola de billetes y 🫧 Pistola de Burbujas', '👥 2 Operadores de staff', '💾 Galería Digital (Online 1 mes)', '🎨 Plantilla 100% Personalizada para el evento', '🎉 15 Espumas para invitados'], offerDetails: { tag: '🚀 OFERTA APERTURA' } },
+                        { id: 'd3', service: 'duo', name: '👑 DUO Diamante Completo', price: 7499, originalPrice: 8249, features: ['✨ Cabina 360 + Espejo Mágico', '⏱️ Cobertura extendida de 3 horas', '🎬 Videos 360 ILIMITADOS', '📸 Fotos Digitales ILIMITADAS', '🖼️ Impresiones ILIMITADAS (del Espejo)', '📲 Entrega por QR para ambos', '🎬 Montaje VIP para ambos servicios', '🎩 Toda nuestra utilería premium', '💸 Pistola de billetes y 🫧 Pistola de Burbujas', '📖 Álbum de Recuerdos (Guestbook) incluido', '🎨 Diseño 100% personalizado para las impresiones', '🖼️ Fondo personalizado para el Espejo Mágico', '🖥️ Pantalla con diseño personalizado', '👥 2 Operadores de staff', '💾 Galería Digital (Online 1 mes)', '🎉 15 Espumas para invitados'], offerDetails: { tag: '🚀 OFERTA APERTURA' } }
+                    ],
+                    addons: [
+                        { id: 'a1', name: '⏳ Media Hora Extra', price: 600 },
+                        { id: 'a2', name: '⏳ Hora Extra Completa 🔥', price: 999 }
+                    ]
+                };
+                
+                const SERVICES = [
+                    { id: 'cabina', name: 'Cabina 360' },
+                    { id: 'espejo', name: 'Espejo Mágico' },
+                    { id: 'duo', name: 'Paquetes DUO ✨' }
+                ];
+
+                let state = {
+                    selectedServiceId: SERVICES[0].id,
+                    selectedPackageId: null,
+                    selectedAddonsIds: new Set()
+                };
+
+                const dom = {
+                    serviceTabs: document.getElementById('service-tabs'),
+                    serviceContent: document.getElementById('service-content'),
+                    summarySection: document.getElementById('summary-section'),
+                    summaryItems: document.getElementById('summary-items'),
+                    summaryPlaceholder: document.getElementById('summary-placeholder'),
+                    totalPrice: document.getElementById('total-price'),
+                    whatsappButton: document.getElementById('whatsapp-button'),
+                    comparisonWrapper: document.getElementById('comparison-section-wrapper'),
+                    budgetSlider: document.getElementById('budget-slider'),
+                    budgetValueDisplay: document.getElementById('budget-value'),
+                    budgetWhatsappButton: document.getElementById('budget-whatsapp-button')
+                };
+
+                function isOfferActive(pkg) {
+                    if (!pkg.offerDetails) return false;
+                    if (!pkg.offerDetails.startDate) return true;
+                    
+                    const now = new Date();
+                    const startDate = new Date(pkg.offerDetails.startDate + 'T00:00:00');
+                    const endDate = new Date(pkg.offerDetails.endDate + 'T23:59:59');
+                    
+                    return now >= startDate && now <= endDate;
+                }
+
+                function renderAll() {
+                    renderServiceTabs();
+                    renderServiceContent();
+                    renderSummary();
+                }
+
+                function renderServiceTabs() {
+                    dom.serviceTabs.innerHTML = SERVICES.map(service => `
+                        <button 
+                            role="tab" 
+                            id="tab-${service.id}"
+                            data-id="${service.id}" 
+                            aria-selected="${state.selectedServiceId === service.id}"
+                            aria-controls="panel-${service.id}"
+                            class="service-tab w-1/3 p-2 rounded-md ${state.selectedServiceId === service.id ? 'active' : ''}">
+                            ${service.name}
+                        </button>
+                    `).join('');
+                }
+
+                function renderServiceContent() {
+                    const activeService = SERVICES.find(s => s.id === state.selectedServiceId);
+                    if (!activeService) return;
+
+                    dom.serviceContent.innerHTML = `
+                        <div id="panel-${activeService.id}" role="tabpanel" aria-labelledby="tab-${activeService.id}">
+                            <section id="package-display" class="mb-8">
+                                <h2 class="text-2xl font-bold mb-4 accent-color">2. Selecciona un Paquete Base</h2>
+                                <div id="packages-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                                <div class="text-center mt-8">
+                                    <a href="#feature-comparison" class="inline-block bg-gray-700 text-accent-color font-semibold py-2 px-5 rounded-lg hover:bg-gray-600 transition-colors duration-300 shadow-md">
+                                        Ver contenido detallado de los paquetes →
+                                    </a>
+                                </div>
+                            </section>
+                            <section>
+                                <h2 class="text-2xl font-bold mb-4 accent-color">3. Añade Extras</h2>
+                                <div id="addons-container" class="space-y-3"></div>
+                            </section>
+                        </div>
+                    `;
+                    const packagesContainer = document.getElementById('packages-container');
+                    const addonsContainer = document.getElementById('addons-container');
+                    
+                    renderPackages(packagesContainer);
+                    renderAddons(addonsContainer);
+                    renderComparisonTable();
+
+                    attachPackageListeners(packagesContainer);
+                    attachAddonListeners(addonsContainer);
+                }
+
+                function renderPackages(container) {
+                    const packages = APP_DB.packages.filter(p => p.service === state.selectedServiceId);
+                    container.innerHTML = packages.map(pkg => {
+                        const offerIsActive = isOfferActive(pkg);
+                        const summaryFeatures = pkg.features.slice(0, SUMMARY_FEATURES_COUNT);
+                        const detailedFeatures = pkg.features.slice(SUMMARY_FEATURES_COUNT);
+
+                        return `
+                        <div data-id="${pkg.id}" class="package-card bg-gray-900 rounded-lg p-5 flex flex-col h-full ${state.selectedPackageId === pkg.id ? 'selected' : ''} relative">
+                            <div class="cursor-pointer flex-grow">
+                                ${offerIsActive ? `<div class="absolute top-3 right-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse z-10">${pkg.offerDetails.tag}</div>` : ''}
+                                <h3 class="font-bold text-lg mb-2 pt-4">${pkg.name}</h3>
+                                <div class="mb-3">
+                                    ${offerIsActive && pkg.originalPrice ? `<p class="text-gray-500 text-base line-through">Antes: $${pkg.originalPrice.toLocaleString()}</p>` : ''}
+                                    <p class="accent-color font-semibold text-2xl">$${pkg.price.toLocaleString()}</p>
+                                </div>
+                                <ul class="text-sm text-gray-300 space-y-1">
+                                    ${summaryFeatures.map(f => `<li>${f}</li>`).join('')}
+                                </ul>
+                            </div>
+                            ${detailedFeatures.length > 0 ? `
+                                <div id="details-${pkg.id}" class="details-list text-sm text-gray-300 space-y-1 mt-2">
+                                    <ul class="space-y-1">
+                                        ${detailedFeatures.map(f => `<li>${f}</li>`).join('')}
+                                    </ul>
+                                </div>
+                                <button data-target="details-${pkg.id}" class="toggle-details-btn text-accent-color font-semibold text-sm mt-4 text-left">
+                                    Ver contenido detallado...
+                                </button>
+                            ` : ''}
+                        </div>`;
+                    }).join('');
+                }
+
+                function renderAddons(container) {
+                    container.innerHTML = APP_DB.addons.map(addon => `
+                        <div data-id="${addon.id}" class="addon-item bg-gray-900 rounded-lg p-4 flex justify-between items-center cursor-pointer ${state.selectedAddonsIds.has(addon.id) ? 'selected' : ''}">
+                            <div>
+                                <p class="font-semibold">${addon.name}</p>
+                                <p class="text-sm accent-color">$${addon.price.toLocaleString()}</p>
+                            </div>
+                            <div class="w-6 h-6 rounded-full flex items-center justify-center border-2 ${state.selectedAddonsIds.has(addon.id) ? 'bg-accent border-accent' : 'border-gray-500'}">
+                                ${state.selectedAddonsIds.has(addon.id) ? '<span class="text-gray-900 font-bold text-lg leading-none" aria-hidden="true">✓</span>' : ''}
+                            </div>
+                        </div>`).join('');
+                }
+                
+                function renderSummary() {
+                    let total = 0;
+                    dom.summaryItems.innerHTML = '';
+                    
+                    const selectedPackage = APP_DB.packages.find(p => p.id === state.selectedPackageId);
+                    if (selectedPackage) {
+                        total += selectedPackage.price;
+                        dom.summaryItems.innerHTML += `<div class="summary-item flex justify-between items-center pb-2"><span>${selectedPackage.name.split(' ').slice(1).join(' ')}</span><span class="font-semibold">$${selectedPackage.price.toLocaleString()}</span></div>`;
+                    }
+
+                    state.selectedAddonsIds.forEach(addonId => {
+                        const addon = APP_DB.addons.find(a => a.id === addonId);
+                        if (addon) {
+                            total += addon.price;
+                            dom.summaryItems.innerHTML += `<div class="summary-item flex justify-between items-center pb-2"><span>${addon.name}</span><span class="font-semibold">$${addon.price.toLocaleString()}</span></div>`;
+                        }
+                    });
+                    
+                    dom.summaryPlaceholder.style.display = total > 0 ? 'none' : 'block';
+                    dom.totalPrice.textContent = `$${total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} MXN`;
+                    
+                    if (total > 0 && dom.totalPrice.animate) {
+                        dom.totalPrice.classList.add('price-updated');
+                        dom.totalPrice.addEventListener('animationend', () => {
+                            dom.totalPrice.classList.remove('price-updated');
+                        }, { once: true });
+                    }
+                    updateWhatsappLink(total);
+                }
+
+                function renderComparisonTable() {
+                    const packages = APP_DB.packages.filter(p => p.service === state.selectedServiceId);
+                    if (packages.length === 0) {
+                        dom.comparisonWrapper.innerHTML = '';
+                        return;
+                    }
+                    
+                    const allUniqueFeatures = [...new Set(packages.flatMap(p => p.features))];
+
+                    let tableHTML = `
+                    <section id="feature-comparison" class="py-12 bg-gray-900/50 mt-12">
+                        <div class="container mx-auto px-4">
+                            <h2 class="text-3xl font-bold text-center accent-color mb-8">Contenido Detallado de los Paquetes</h2>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-center bg-gray-800 rounded-lg">
+                                    <thead>
+                                        <tr class="border-b border-gray-700">
+                                            <th class="p-4 text-left">Característica</th>
+                                            ${packages.map(pkg => `<th class="p-4 ${state.selectedPackageId === pkg.id ? 'accent-color' : ''}">${pkg.name.split(' ').slice(1).join(' ')}</th>`).join('')}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${allUniqueFeatures.map(feature => `
+                                            <tr class="border-b border-gray-700/50">
+                                                <td class="p-3 text-left text-gray-400">${feature}</td>
+                                                ${packages.map(pkg => `
+                                                    <td class="p-3 ${state.selectedPackageId === pkg.id ? 'bg-gray-700/50' : ''}">
+                                                        ${pkg.features.includes(feature) ? '<span class="text-green-400 text-2xl">✓</span>' : '<span class="text-red-500 text-xl">-</span>'}
+                                                    </td>
+                                                `).join('')}
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>`;
+                    dom.comparisonWrapper.innerHTML = tableHTML;
+                }
+
+                function updateWhatsappLink(total) {
+                    if (total === 0) {
+                        dom.whatsappButton.href = "#";
+                        dom.whatsappButton.classList.add('opacity-50', 'cursor-not-allowed');
+                        return;
+                    }
+                    dom.whatsappButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                    let message = `Hola SpinShot Mx, me gustaría cotizar lo siguiente:\n\n`;
+                    const service = SERVICES.find(s => s.id === state.selectedServiceId);
+                    if (service) message += `*Servicio:* ${service.name}\n`;
+                    
+                    const pkg = APP_DB.packages.find(p => p.id === state.selectedPackageId);
+                    let reservationFeeText = "";
+                    if(pkg) {
+                        message += `*Paquete:* ${pkg.name}`;
+                        if (isOfferActive(pkg)) message += ` (${pkg.offerDetails.tag})`;
+                        message += `\n`;
+                        switch(pkg.service) {
+                            case 'cabina': reservationFeeText = `\n\n*Nota:* Para reservar tu fecha se requiere un anticipo de $500 MXN (se descuenta del total).`; break;
+                            case 'espejo': reservationFeeText = `\n\n*Nota:* Para reservar tu fecha se requiere un anticipo de $700 MXN (se descuenta del total).`; break;
+                            case 'duo': reservationFeeText = `\n\n*Nota:* Para reservar tu fecha se requiere un anticipo de $900 MXN (se descuenta del total).`; break;
+                        }
+                    }
+                    if (state.selectedAddonsIds.size > 0) {
+                        message += "\n*Extras Adicionales:*\n";
+                        state.selectedAddonsIds.forEach(id => {
+                            const addon = APP_DB.addons.find(a => a.id === id);
+                            if (addon) message += `- ${addon.name}\n`;
+                        });
+                    }
+                    message += `\n*Total Estimado:* $${total.toLocaleString()}.00 MXN`;
+                    if(reservationFeeText) message += reservationFeeText;
+                    
+                    dom.whatsappButton.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+                }
+                
+                function updateBudget() {
+                    const budget = parseInt(dom.budgetSlider.value);
+                    dom.budgetValueDisplay.textContent = budget.toLocaleString('es-MX');
+                    
+                    if (budget < MIN_BUDGET) {
+                        dom.budgetWhatsappButton.classList.add('opacity-50', 'cursor-not-allowed');
+                        dom.budgetWhatsappButton.removeAttribute('href');
+                    } else {
+                        dom.budgetWhatsappButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                        let message = `Hola SpinShot Mx, me gustaría cotizar un paquete personalizado. Mi presupuesto aproximado es de $${budget.toLocaleString('es-MX')} MXN. ¿Qué opciones me pueden ofrecer?`;
+                        dom.budgetWhatsappButton.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+                    }
+                }
+
+                function handleServiceSelection(e) {
+                    const tab = e.target.closest('.service-tab');
+                    if (!tab || tab.dataset.id === state.selectedServiceId) return;
+                    state.selectedServiceId = tab.dataset.id;
+                    state.selectedPackageId = null;
+                    state.selectedAddonsIds.clear();
+                    renderAll();
+                }
+
+                function handlePackageClick(e) {
+                    const toggleBtn = e.target.closest('.toggle-details-btn');
+                    if (toggleBtn) {
+                        e.stopPropagation(); // Previene que se seleccione el paquete
+                        const targetId = toggleBtn.dataset.target;
+                        const detailsList = document.getElementById(targetId);
+                        if (detailsList) {
+                            detailsList.classList.toggle('expanded');
+                            const isExpanded = detailsList.classList.contains('expanded');
+                            toggleBtn.textContent = isExpanded ? 'Mostrar menos' : 'Ver contenido detallado...';
+                        }
+                        return;
+                    }
+
+                    const card = e.target.closest('.package-card');
+                    if (card && card.dataset.id !== state.selectedPackageId) {
+                        state.selectedPackageId = card.dataset.id;
+                        renderServiceContent();
+                        renderSummary();
+                        if (window.innerWidth < 1024) {
+                            dom.summarySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                }
+
+                function handleAddonSelection(e) {
+                    const item = e.target.closest('.addon-item');
+                    if (!item) return;
+                    const addonId = item.dataset.id;
+                    if (state.selectedAddonsIds.has(addonId)) {
+                        state.selectedAddonsIds.delete(addonId);
+                    } else {
+                        state.selectedAddonsIds.add(addonId);
+                    }
+                    const addonsContainer = document.getElementById('addons-container');
+                    renderAddons(addonsContainer);
+                    renderSummary();
+                }
+
+                function attachPackageListeners(container) {
+                    if (container) container.addEventListener('click', handlePackageClick);
+                }
+                function attachAddonListeners(container) {
+                    if (container) container.addEventListener('click', handleAddonSelection);
+                }
+
+                dom.serviceTabs.addEventListener('click', handleServiceSelection);
+                dom.budgetSlider.addEventListener('input', updateBudget);
+
+                renderAll();
+                updateBudget();
+                console.log("Calculadora de eventos v5 inicializada correctamente.");
+
+            } catch (error) {
+                console.error("Error fatal en la calculadora:", error);
+                document.body.innerHTML = '<div class="text-red-500 text-center mt-10 p-4 bg-red-900 rounded-lg">Ha ocurrido un error inesperado. Por favor, recarga la página.</div>';
+            }
+        });
+    </script>
+</body>
+</html>
