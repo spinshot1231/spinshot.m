@@ -1,11 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html lang="es-MX">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Administración</title>
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpinShot Mx | Inicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            color: #E5E7EB;
+        }
+        .accent { color: #FBBF24; }
+        .btn-primary {
+            background-color: #FBBF24;
+            color: #111827;
+            font-weight: 700;
+            padding: 14px 28px;
+            border-radius: 10px;
+            display: inline-block;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .btn-primary:hover { 
+            transform: scale(1.05); 
+            background-color: #fcd34d; 
+        }
+        .btn-secondary {
+            background-color: #ef4444; /* Rojo para las promos */
+            color: #ffffff;
+            font-weight: 700;
+            padding: 14px 28px;
+            border-radius: 10px;
+            display: inline-block;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .btn-secondary:hover {
+            transform: scale(1.05);
+            background-color: #dc2626;
+        }
+        footer a:hover { opacity: 0.8; }
+    </style>
 </head>
-<body>
+<body class="antialiased">
+    <!-- Hero principal -->
+    <header class="text-center py-12 bg-gray-900">
+        <img src="image/logo1.png" alt="Logo SpinShot" class="mx-auto w-32 mb-4">
+        <h1 class="text-4xl font-extrabold accent mb-2">SpinShot Mx</h1>
+        <p class="text-lg max-w-2xl mx-auto text-gray-400">
+            Hacemos tus eventos inolvidables con nuestras cabinas 360 y espejo mágico. Captura momentos únicos con estilo profesional.
+        </p>
+        <a href="calculadora.html" class="btn-primary mt-8">Ir a Cotización de Paquetes</a>
+    </header>
+
+    <!-- ========================================== -->
+    <!--      NUEVO APARTADO DE PROMOCIONES         -->
+    <!-- ========================================== -->
+    <section class="bg-gray-800 py-10">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-red-500 mb-3">🔥 ¡Ofertas Especiales!</h2>
+            <p class="text-gray-400 mb-6 max-w-xl mx-auto">No te pierdas nuestros paquetes y descuentos exclusivos por tiempo limitado.</p>
+            <a href="promociones.html" class="btn-secondary">Ver Promociones Ahora</a>
+        </div>
+    </section>
+    <!-- ========================================== -->
+
+    <!-- Sección de paquetes resumidos -->
+    <section class="container mx-auto px-4 py-12">
+        <h2 class="text-3xl font-bold text-center accent mb-10">Nuestros Servicios</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Cabina 360 -->
+            <div class="bg-gray-800 rounded-lg p-6 shadow-md text-center border border-gray-700">
+                <h3 class="text-xl font-bold accent mb-2">🚀 Cabina 360</h3>
+                <p class="text-gray-400 mb-4">Videos dinámicos que capturan toda la energía de tu fiesta. Perfecto para acción y diversión.</p>
+                <img src="image/cabina360.jpeg" alt="Cabina 360" class="rounded-lg mb-4">
+            </div>
+            <!-- Espejo mágico -->
+            <div class="bg-gray-800 rounded-lg p-6 shadow-md text-center border border-gray-700">
+                <h3 class="text-xl font-bold accent mb-2">💎 Espejo Mágico</h3>
+                <p class="text-gray-400 mb-4">Fotos interactivas con un toque elegante y recuerdos impresos para tus invitados.</p>
+                <img src="image/espejomagico.jpeg" alt="Espejo mágico" class="rounded-lg mb-4">
+            </div>
+            <!-- Paquetes DUO -->
+            <div class="bg-gray-800 rounded-lg p-6 shadow-md text-center border border-gray-700">
+                <h3 class="text-xl font-bold accent mb-2">👑 Paquetes DUO</h3>
+                <p class="text-gray-400 mb-4">Combina Cabina 360 y Espejo Mágico para una experiencia completa y exclusiva.</p>
+                <img src="image/impresiones.jpeg" alt="Paquetes duo" class="rounded-lg mb-4">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer con redes sociales -->
+    <footer class="bg-gray-900 py-8 text-center">
+        <p class="text-gray-400 mb-4">Síguenos en redes sociales</p>
+        <div class="flex justify-center space-x-6">
+            <a href="https://www.instagram.com/spinshot_mx?igsh=MXR3YnZkcGthYm14dQ%3D%3D&utm_source=qr" target="_blank">
+                <img src="image/instagram.png" alt="Instagram" class="w-8">
+            </a>
+            <a href="https://www.facebook.com/share/19Z4FwEaGz/?mibextid=wwXIfr" target="_blank">
+                <img src="image/facebook.png" alt="Facebook" class="w-8">
+            </a>
+            <a href="https://wa.me/524522195520?text=Me%20interesan%20los%20paquetes%20quiero%20saber%20mas" target="_blank">
+                <img src="image/whatsapp.png" alt="WhatsApp" class="w-8">
+            </a>
+            <a href="https://www.tiktok.com/@spinshot._mx?_t=ZS-8yRbYFZMRnc&_r=1" target="_blank">
+                <img src="image/tiktok.png" alt="TikTok" class="w-8">
+            </a>
+        </div>
+        <p class="text-gray-500 mt-4 text-sm">© 2025 SpinShot Mx - Todos los derechos reservados</p>
+    </footer>
 </body>
 </html>

@@ -1,8 +1,8 @@
 backend:
   name: git-gateway
-  branch: main # o master si tu repositorio usa esa rama
+  branch: main
 
-media_folder: "image/uploads" # Carpeta donde se guardarán las imágenes
+media_folder: "image/uploads"
 public_folder: "/image/uploads"
 
 collections:
