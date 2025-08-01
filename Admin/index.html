@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración</title>
+  
+  <!-- Carga Netlify CMS -->
+  <script>
+    window.CMS_MANUAL_INIT = true;
+  </script>
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+</head>
+<body>
+  <h1 style="text-align:center;">Cargando Panel de Administración...</h1>
+
+  <script>
+    CMS.init({
+      config: {
+        load_config_file: false, /* No busca config.yml, usa esta config */
+        backend: {
+          name: "git-gateway",
+          branch: "main"
+        },
+        media_folder: "imagen/uploads",
+        public_folder: "/imagen/uploads",
+        collections: [
+          {
+            name: "promociones",
+            label: "Promociones",
+            folder: "promociones",
+            create: true,
+            slug: "{{slug}}",
+            fields: [
+              { label: "Título", name: "title", widget: "string" },
+              { label: "Etiqueta", name: "tag", widget: "string" },
+              { label: "Descripción", name: "description", widget: "text" },
+              { label: "Lista de beneficios", name: "features", widget: "list" },
+              { label: "Precio anterior", name: "old_price", widget: "string" },
+              { label: "Precio actual", name: "new_price", widget: "string" },
+              { label: "Imagen", name: "image", widget: "image" },
+              { label: "Texto del botón", name: "button_text", widget: "string" },
+              { label: "Enlace del botón (WhatsApp)", name: "button_link", widget: "string" },
+              { label: "Texto válido hasta", name: "valid_until", widget: "string" }
+            ]
+          }
+        ]
+      }
+    });
+  </script>
+</body>
+</html>

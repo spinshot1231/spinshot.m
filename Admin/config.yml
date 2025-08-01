@@ -1,0 +1,24 @@
+backend:
+  name: git-gateway
+  branch: main # o master si tu repositorio usa esa rama
+
+media_folder: "imagen/uploads" # Carpeta donde se guardarán las imágenes
+public_folder: "/imagen/uploads"
+
+collections:
+  - name: "promociones"
+    label: "Promociones"
+    folder: "promociones"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Etiqueta", name: "tag", widget: "string" }
+      - { label: "Descripción", name: "description", widget: "text" }
+      - { label: "Lista de beneficios", name: "features", widget: "list" }
+      - { label: "Precio anterior", name: "old_price", widget: "string" }
+      - { label: "Precio actual", name: "new_price", widget: "string" }
+      - { label: "Imagen", name: "image", widget: "image" }
+      - { label: "Texto del botón", name: "button_text", widget: "string" }
+      - { label: "Enlace del botón (WhatsApp)", name: "button_link", widget: "string" }
+      - { label: "Texto válido hasta", name: "valid_until", widget: "string" }
