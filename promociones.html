@@ -19,12 +19,13 @@
       margin-top: 20px;
     }
 
-    /* Contenedor cuenta regresiva */
+    /* Contador */
     #countdown-container {
       font-size: 20px;
       color: yellow;
       margin-top: 10px;
       margin-bottom: 20px;
+      font-weight: bold;
     }
 
     #countdown {
@@ -32,21 +33,6 @@
       font-weight: bold;
       color: #ff3b3b;
       margin-top: 5px;
-    }
-
-    /* Contenedor videos */
-    .video-container {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin: 20px;
-    }
-
-    video {
-      width: 200px;
-      border: 2px solid red;
-      border-radius: 8px;
     }
 
     /* Contenedor promociones */
@@ -58,32 +44,35 @@
       margin: 20px;
     }
 
-    .promo {
+    .promo-card {
       background-color: #1a1a1a;
       border: 2px solid red;
       border-radius: 10px;
       padding: 20px;
       width: 300px;
       text-align: left;
+      margin-bottom: 20px;
     }
 
-    .promo h2 {
+    .promo-card h3 {
       color: red;
       margin-bottom: 10px;
     }
 
-    .promo p {
-      font-size: 16px;
-      line-height: 1.4;
+    .promo-card p.price {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #ffcc00;
     }
 
-    .promo ul {
-      text-align: left;
+    .promo-card ul {
       margin: 10px 0;
       padding-left: 20px;
+      text-align: left;
     }
 
-    .btn-whatsapp {
+    .whatsapp-btn {
       display: inline-block;
       margin-top: 10px;
       padding: 10px 15px;
@@ -93,6 +82,27 @@
       border-radius: 5px;
       font-weight: bold;
       font-size: 14px;
+      width: 100%;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .whatsapp-btn:hover {
+      background-color: #1ebe57;
+    }
+
+    /* Video bloqueado */
+    .promo-video {
+      width: 100%;
+      max-width: 300px;
+      margin-top: 10px;
+      border: 2px solid red;
+      border-radius: 8px;
+      pointer-events: none; /* Bloquea interacción */
+      user-select: none; /* No seleccionable */
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     /* Responsive */
@@ -100,14 +110,6 @@
       .promo-container {
         flex-direction: column;
         align-items: center;
-      }
-
-      .video-container {
-        flex-direction: column;
-      }
-
-      video {
-        width: 80%;
       }
     }
   </style>
@@ -120,72 +122,90 @@
     <span id="countdown"></span>
   </div>
 
-  <!-- Videos -->
-  <div class="video-container">
-    <video autoplay muted loop>
-      <source src="videos/ironman.mp4" type="video/mp4">
-    </video>
-    <video autoplay muted loop>
-      <source src="videos/monoslocos.mp4" type="video/mp4">
-    </video>
-    <video autoplay muted loop>
-      <source src="videos/bella.mp4" type="video/mp4">
-    </video>
-  </div>
-
   <!-- Promociones -->
   <div class="promo-container">
-    <div class="promo">
-      <h2>Paquete Cabina + Espejo Dinámico – $2,799 MXN</h2>
+
+    <!-- Promo 1 -->
+    <div class="promo-card">
+      <h3>Paquete Cabina + Espejo Dinámico</h3>
+      <p class="price">$2,799 MXN</p>
       <p>La combinación perfecta de fotos y videos 360 para que tu evento sea recordado por todos.</p>
       <ul>
         <li>Cabina 360 + Espejo Mágico en un solo set dinámico.</li>
         <li>Videos y fotos ilimitadas con entrega inmediata.</li>
       </ul>
-      <a class="btn-whatsapp" href="https://wa.me/5214522195520?text=Hola,%20quiero%20el%20Paquete%20Cabina%20+%20Espejo%20Dinámico">Lo quiero</a>
+      <a class="whatsapp-btn" onclick="enviarWhatsApp('Paquete Cabina + Espejo Dinámico', '2,799 MXN', 'Cabina 360 + Espejo Mágico, fotos y videos ilimitados')">Lo quiero</a>
+      <video autoplay loop muted playsinline class="promo-video">
+        <source src="videos/ironman.mp4" type="video/mp4">
+      </video>
     </div>
 
-    <div class="promo">
-      <h2>Cabina 360 Fiesta Total (4 hrs) – $3,200 MXN</h2>
-      <p>Extiende la diversión con 4 horas de videos ilimitados y efectos en tiempo real para todos tus invitados.</p>
+    <!-- Promo 2 -->
+    <div class="promo-card">
+      <h3>Cabina 360 Fiesta Total (4 hrs)</h3>
+      <p class="price">$3,200 MXN</p>
+      <p>Haz que la fiesta nunca pare: 4 horas de diversión total para ti y tus invitados.</p>
       <ul>
-        <li>Incluye alfombra roja, pistola de billetes y burbujas.</li>
-        <li>Iluminación premium y plantilla personalizada.</li>
+        <li>Videos ilimitados con efectos premium.</li>
+        <li>Alfombra roja, pistola de billetes y burbujas incluidas.</li>
       </ul>
-      <a class="btn-whatsapp" href="https://wa.me/5214522195520?text=Hola,%20quiero%20la%20Cabina%20360%20Fiesta%20Total%20(4hrs)">Lo quiero</a>
+      <a class="whatsapp-btn" onclick="enviarWhatsApp('Cabina 360 Fiesta Total (4 hrs)', '3,200 MXN', '4 horas de diversión con videos ilimitados y efectos premium')">Lo quiero</a>
+      <video autoplay loop muted playsinline class="promo-video">
+        <source src="videos/monoslocos.mp4" type="video/mp4">
+      </video>
     </div>
 
-    <div class="promo">
-      <h2>Cabina Espejo Mágico Paquete Plata – $2,400 MXN</h2>
-      <p>Fotos digitales e impresiones ilimitadas con un montaje elegante y utilería divertida.</p>
+    <!-- Promo 3 -->
+    <div class="promo-card">
+      <h3>Cabina Espejo Mágico Paquete Plata</h3>
+      <p class="price">$2,400 MXN</p>
+      <p>Fotos mágicas que combinan elegancia y diversión, perfectas para cualquier ocasión especial.</p>
       <ul>
-        <li>Ideal para bodas, XV años y graduaciones.</li>
+        <li>Fotos digitales e impresiones ilimitadas.</li>
+        <li>Montaje elegante con alfombra VIP y fondo decorado.</li>
       </ul>
-      <a class="btn-whatsapp" href="https://wa.me/5214522195520?text=Hola,%20quiero%20el%20Cabina%20Espejo%20Mágico%20Paquete%20Plata">Lo quiero</a>
+      <a class="whatsapp-btn" onclick="enviarWhatsApp('Cabina Espejo Mágico Paquete Plata', '2,400 MXN', 'Fotos digitales e impresiones ilimitadas con montaje VIP')">Lo quiero</a>
+      <video autoplay loop muted playsinline class="promo-video">
+        <source src="videos/bella.mp4" type="video/mp4">
+      </video>
     </div>
 
-    <div class="promo">
-      <h2>Paquete Dúo Diamante – $5,000 MXN</h2>
-      <p>El paquete más completo: cabina 360 y espejo mágico trabajando juntos para tu evento VIP.</p>
+    <!-- Promo 4 -->
+    <div class="promo-card">
+      <h3>Paquete Dúo Diamante</h3>
+      <p class="price">$5,000 MXN</p>
+      <p>La experiencia completa: Cabina 360 y Espejo Mágico al mismo tiempo para una cobertura total.</p>
       <ul>
-        <li>2-3 horas de cobertura con impresiones y utilería premium.</li>
-        <li>Galería digital exclusiva incluida.</li>
+        <li>2-3 horas de fotos y videos ilimitados.</li>
+        <li>Impresiones incluidas y utilería premium.</li>
       </ul>
-      <a class="btn-whatsapp" href="https://wa.me/5214522195520?text=Hola,%20quiero%20el%20Paquete%20Dúo%20Diamante">Lo quiero</a>
+      <a class="whatsapp-btn" onclick="enviarWhatsApp('Paquete Dúo Diamante', '5,000 MXN', 'Cabina 360 + Espejo Mágico juntos, impresiones y utilería premium')">Lo quiero</a>
+      <video autoplay loop muted playsinline class="promo-video">
+        <source src="videos/ironman.mp4" type="video/mp4">
+      </video>
     </div>
+
   </div>
 
   <script>
-    // Fecha límite: 1 de septiembre
-    const countdownDate = new Date("Sep 1, 2025 00:00:00").getTime();
+    // Función para enviar a WhatsApp
+    function enviarWhatsApp(paquete, precio, descripcion) {
+      const mensaje = `Hola, me interesa la promoción ${paquete} (${precio}). Detalles: ${descripcion}. ¿Está disponible para reservar?`;
+      const url = `https://wa.me/5214522195520?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+    }
 
-    const countdownFunction = setInterval(function () {
+    // Cuenta regresiva
+    const countdownDate = new Date("Sep 1, 2025 00:00:00").getTime();
+    const countdownElement = document.getElementById("countdown");
+
+    const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = countdownDate - now;
 
       if (distance < 0) {
-        document.getElementById("countdown").innerHTML = "¡La promoción ha finalizado!";
-        clearInterval(countdownFunction);
+        countdownElement.innerHTML = "¡La promoción ha finalizado!";
+        clearInterval(timer);
         return;
       }
 
@@ -194,8 +214,7 @@
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      document.getElementById("countdown").innerHTML =
-        days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+      countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }, 1000);
   </script>
 </body>
