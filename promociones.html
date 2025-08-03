@@ -17,6 +17,7 @@
     h1 {
       color: red;
       margin-top: 20px;
+      font-size: 2rem;
     }
 
     /* Contador */
@@ -45,22 +46,30 @@
     }
 
     .promo-card {
-      background-color: #1a1a1a;
+      background: linear-gradient(145deg, #1a1a1a, #000);
       border: 2px solid red;
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 20px;
       width: 300px;
       text-align: left;
       margin-bottom: 20px;
+      box-shadow: 0px 0px 10px rgba(255,0,0,0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .promo-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 0px 15px rgba(255,0,0,0.6);
     }
 
     .promo-card h3 {
       color: red;
       margin-bottom: 10px;
+      font-size: 1.2rem;
     }
 
     .promo-card p.price {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
       margin-bottom: 10px;
       color: #ffcc00;
@@ -72,19 +81,24 @@
       text-align: left;
     }
 
+    .promo-card ul li {
+      margin-bottom: 5px;
+    }
+
     .whatsapp-btn {
       display: inline-block;
       margin-top: 10px;
-      padding: 10px 15px;
+      padding: 12px 15px;
       background-color: #25D366;
       color: white;
       text-decoration: none;
-      border-radius: 5px;
+      border-radius: 8px;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 15px;
       width: 100%;
       text-align: center;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
 
     .whatsapp-btn:hover {
@@ -140,16 +154,17 @@
       </video>
     </div>
 
-    <!-- Promo 2 -->
+    <!-- Promo 2 (Actualizada) -->
     <div class="promo-card">
-      <h3>Cabina 360 Fiesta Total (4 hrs)</h3>
-      <p class="price">$3,200 MXN</p>
-      <p>Haz que la fiesta nunca pare: 4 horas de diversión total para ti y tus invitados.</p>
+      <h3>Cabina 360 Fiesta Total (3 hrs)</h3>
+      <p class="price">$2,300 MXN</p>
+      <p>3 horas de diversión total para que tu evento brille sin parar. ¡Momentos épicos garantizados!</p>
       <ul>
-        <li>Videos ilimitados con efectos premium.</li>
-        <li>Alfombra roja, pistola de billetes y burbujas incluidas.</li>
+        <li>Videos ilimitados en 360° con efectos premium.</li>
+        <li>Incluye alfombra roja, pistola de billetes y burbujas.</li>
+        <li>Montaje rápido y staff profesional durante todo el evento.</li>
       </ul>
-      <a class="whatsapp-btn" onclick="enviarWhatsApp('Cabina 360 Fiesta Total (4 hrs)', '3,200 MXN', '4 horas de diversión con videos ilimitados y efectos premium')">Lo quiero</a>
+      <a class="whatsapp-btn" onclick="enviarWhatsApp('Cabina 360 Fiesta Total (3 hrs)', '2,300 MXN', '3 horas de diversión con videos ilimitados y efectos premium')">Lo quiero</a>
       <video autoplay loop muted playsinline class="promo-video">
         <source src="videos/monoslocos.mp4" type="video/mp4">
       </video>
@@ -217,7 +232,8 @@
       countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }, 1000);
   </script>
-    <!-- Botón para volver a la calculadora -->
+
+  <!-- Botón para volver a la calculadora -->
   <div style="text-align:center; margin: 30px 0;">
     <a href="calculadora.html" 
        style="display:inline-block; padding: 12px 20px; background-color:#ff3b3b; color:#fff; text-decoration:none; font-size:16px; font-weight:bold; border-radius:8px;">
