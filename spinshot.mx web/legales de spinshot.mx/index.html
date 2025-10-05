@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Generador de Cotizaciones — SpinShot MX</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0f172a;--panel:#0b1224;--panel-2:#111a32;--muted:#94a3b8;--text:#e2e8f0;--line:#1e293b;--brand:#facc15;--brand-600:#ca8a04;--radius:16px;}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);}
+    .wrap{max-width:1200px;margin:16px auto;padding:0 10px;display:grid;gap:16px;grid-template-columns:380px 1fr;}
+    @media(max-width:980px){.wrap{grid-template-columns:1fr;}}
+    @media(max-width:640px){.wrap{gap:12px;}.card{padding:14px;border-radius:10px;}h2.title{font-size:20px;}.brand h1{font-size:26px;}.grid-2{grid-template-columns:1fr;gap:10px;}th,td{padding:8px 6px;}.btn{position:fixed;bottom:0;left:0;width:100%;border-radius:0;z-index:10;}}
+    .card{background:linear-gradient(180deg,var(--panel)0%,rgba(8,13,27,.6)100%);border:1px solid var(--line);border-radius:var(--radius);padding:20px;}
+    h2.title{font-size:24px;font-weight:800;text-align:center;margin-bottom:12px;color:#fff;}
+    .field{display:flex;flex-direction:column;gap:6px;margin:8px 0;}
+    .label{font-weight:600;color:#cbd5e1;font-size:14px;}
+    input,select,textarea{background:#0a1226;border:1px solid #1f2a44;color:var(--text);padding:10px;border-radius:8px;width:100%;font-size:14px;}
+    textarea{min-height:64px;resize:vertical;}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    @media(max-width:520px){.row{grid-template-columns:1fr;}}
+    .section{margin:16px 0 8px;font-weight:700;color:#e5e7eb;}
+    .checkbox{display:flex;align-items:center;gap:8px;margin:6px 0;}
+    .checkbox input{width:16px;height:16px;}
+    .btn{border:0;border-radius:10px;padding:12px;font-weight:700;background:var(--brand);color:#111827;cursor:pointer;}
+    .quote{background:linear-gradient(180deg,var(--panel-2)0%,rgba(12,16,33,.6)100%);}
+    .q-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;}
+    .brand h1{margin:0;font-size:34px;color:var(--brand);font-weight:800;}
+    .meta{text-align:right;font-size:14px;}
+    .hr{height:1px;background:var(--line);margin:12px 0;}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    table{width:100%;border-collapse:collapse;font-size:14px;}
+    th,td{padding:10px 8px;border-bottom:1px solid var(--line);}
+    th{font-size:11px;text-transform:uppercase;color:#cbd5e1;}
+    td.price{text-align:right;font-weight:700;}
+    .summary{margin-top:10px;width:100%;max-width:360px;margin-left:auto;font-size:14px;}
+    .summary .rowi{display:flex;justify-content:space-between;padding:4px 0;}
+    .summary .total{font-size:18px;font-weight:800;color:var(--brand-600);}
+    .terms{color:#cbd5e1;font-size:13px;line-height:1.6;}
+    .terms h4{margin:12px 0 6px;}
+    .tag{display:inline-block;padding:4px 8px;border-radius:999px;background:#1f2937;color:#cbd5e1;font-weight:700;font-size:11px;}
+    .firma{margin-top:24px;display:flex;justify-content:space-between;gap:20px;font-size:13px;color:#e5e7eb;}
+    .firma div{flex:1;text-align:center;border-top:1px solid var(--line);padding-top:6px;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <aside class="card">
+      <h2 class="title">Configurar Cotización</h2>
+      <div class="section">Datos del Cliente y Evento</div>
+      <div class="field"><span class="label">Nombre del Cliente</span><input id="iNombre" type="text"></div>
+      <div class="row">
+        <div class="field"><span class="label">Tipo de Evento</span><input id="iTipo" type="text"></div>
+        <div class="field"><span class="label">Fecha del Evento</span><input id="iFecha" type="date"></div>
+      </div>
+      <div class="field"><span class="label">Dirección del Evento</span><input id="iDireccion" type="text"></div>
+      <div class="section">Servicio</div>
+      <div class="field">
+        <span class="label">Servicio</span>
+        <select id="iServicio">
+          <option value="Espejo Mágico">Espejo Mágico</option>
+          <option value="Cabina 360">Cabina 360</option>
+          <option value="Foto Cabina">Foto Cabina</option>
+        </select>
+      </div>
+      <div class="field">
+        <span class="label">Paquete</span>
+        <select id="iPaquete">
+          <option value="" data-price="0">Selecciona un paquete...</option>
+          <option value="Básico (2 hrs)" data-price="3500">Básico (2 hrs) — $3,500</option>
+          <option value="Estándar (3 hrs)" data-price="4500">Estándar (3 hrs) — $4,500</option>
+          <option value="Premium (4 hrs)" data-price="5600">Premium (4 hrs) — $5,600</option>
+          <option value="__otro__" data-price="0">Otro (personalizado)</option>
+        </select>
+        <div id="customPkg" style="display:none; margin-top:6px;">
+          <div class="row">
+            <div class="field"><span class="label">Nombre del paquete</span><input id="iPkgName" type="text"></div>
+            <div class="field"><span class="label">Costo (MXN)</span><input id="iPkgPrice" type="number" min="0"></div>
+          </div>
+        </div>
+      </div>
+      <div class="section">Extras</div>
+      <label class="checkbox"><input type="checkbox" class="extra" data-desc="Media Hora Extra" data-price="600">⏳ Media Hora Extra ($600)</label>
+      <label class="checkbox"><input type="checkbox" class="extra" data-desc="Hora Extra Completa" data-price="999">⏳ Hora Extra Completa 🔥 ($999)</label>
+      <label class="checkbox"><input type="checkbox" class="extra" data-desc="Explosión de Confeti (15)" data-price="150">🎉 Explosión de Confeti ($150)</label>
+      <label class="checkbox"><input type="checkbox" class="extra" data-desc="Combo Fiesta" data-price="333">🎊 Combo Fiesta ($333)</label>
+      <div class="section">Notas</div>
+      <div class="field"><textarea id="iNotas"></textarea></div>
+      <div class="field"><button class="btn" id="btnPDF">📄 Descargar Cotización en PDF</button></div>
+    </aside>
+
+    <main class="card quote" id="quote">
+      <div class="q-head">
+        <div class="brand"><h1>SpinShot Mx</h1><p>Momentos Inolvidables</p></div>
+        <div class="meta">
+          <div>Cotización #: <b id="qFolio">000</b></div>
+          <div>Fecha: <b id="qFechaHoy">—</b></div>
+          <div id="qCiudad">Uruapan, Michoacán</div>
+        </div>
+      </div>
+      <div class="hr"></div>
+      <div class="grid-2">
+        <section><h3 class="tag">Cliente</h3><div id="qCliente">[Nombre del Cliente]</div></section>
+        <section><h3 class="tag">Evento</h3><div id="qTipo">[Tipo de Evento]</div><div id="qFecha">[Fecha del Evento]</div><div id="qDir">[Dirección del Evento]</div></section>
+      </div>
+      <div class="hr"></div>
+      <section>
+        <h3 class="tag">Descripción del Servicio</h3>
+        <table id="tabla"><thead><tr><th>Descripción</th><th class="price">Precio</th></tr></thead><tbody id="tbody"></tbody></table>
+        <div class="summary">
+          <div class="rowi"><span>Subtotal:</span><span id="qSubtotal">$0.00</span></div>
+          <div class="rowi total"><span>Total:</span><span id="qTotal">$0.00</span></div>
+          <div class="rowi"><span>Anticipo (30%):</span><span id="qAnticipo">$0.00</span></div>
+          <div class="rowi"><span>Saldo a Liquidar:</span><span id="qSaldo">$0.00</span></div>
+        </div>
+      </section>
+      <div class="hr"></div>
+      <section class="terms">
+        <h4>TÉRMINOS Y CONDICIONES</h4>
+        <ol>
+          <li><b>Reservación y Aceptación:</b> El pago del anticipo del 30% confirma y acepta los términos aquí expuestos.</li>
+          <li><b>Cancelación y Reembolsos:</b> 15+ días: 100% reembolso. 7-14 días: crédito 6 meses. 6 o menos: no reembolsable. Reservas de último minuto: no reembolsables.</li>
+          <li><b>Responsabilidad por Daños:</b> Los anfitriones cubrirán cualquier daño, pérdida o deterioro del equipo o utilería causado por invitados.</li>
+          <li><b>Cuidado de Niños:</b> Los anfitriones deben supervisar a los niños; cualquier daño o pérdida por menores será cubierto por los anfitriones.</li>
+          <li><b>Requisitos Técnicos:</b> Área segura con electricidad (110V). En exteriores: techo o carpa en caso de lluvia. Área mínima según servicio: Espejo Mágico 1×3m, Cabina 360 3×3m.</li>
+          <li><b>Tiempo de Llegada del Staff:</b> El personal de SpinShot MX llegará aproximadamente entre 30 minutos y 1 hora antes del inicio del evento para la instalación y pruebas necesarias.</li>
+          <li><b>Uso de Imagen y Publicidad:</b> Con autorización, SpinShot MX podrá usar fotos y videos en redes y materiales promocionales.</li>
+        </ol>
+        <p><i>La firma de este documento, en caso de realizarse presencialmente, funcionará como comprobante de asistencia y aceptación de las condiciones aquí estipuladas.</i></p>
+      </section>
+      <div class="firma">
+        <div>Firma del Cliente</div>
+        <div>Firma del Representante SpinShot MX</div>
+      </div>
+      <div class="hr"></div>
+      <section class="terms">
+        <h4>Aviso de Privacidad y Condiciones en Línea</h4>
+        <p>Todos los acuerdos, reservaciones y pagos se realizan de manera electrónica a través de medios digitales. El cliente reconoce y acepta que al efectuar un pago en línea queda plenamente obligado por las condiciones aquí descritas, sin necesidad de firma física.</p>
+        <p>Los datos personales proporcionados (nombre, correo, teléfono, dirección) serán utilizados únicamente para la elaboración de la cotización, facturación y comunicación del servicio. SpinShot MX se compromete a no compartir ni divulgar esta información con terceros, salvo requerimiento legal.</p>
+        <p>Al continuar con el proceso y realizar el pago de anticipo, el cliente acepta este aviso de privacidad y las condiciones generales de contratación por vía electrónica.</p>
+      </section>
+        <div>Firma del Representante SpinShot MX</div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    const mx=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(n||0);
+    const fmtFecha=v=>v?new Date(v+'T12:00').toLocaleDateString('es-MX',{weekday:'long',year:'numeric',month:'long',day:'numeric'}):'[Fecha del Evento]';
+    const iNombre=document.querySelector('#iNombre'),iTipo=document.querySelector('#iTipo'),iFecha=document.querySelector('#iFecha'),iDireccion=document.querySelector('#iDireccion'),iServicio=document.querySelector('#iServicio'),iPaquete=document.querySelector('#iPaquete'),iNotas=document.querySelector('#iNotas'),iPkgName=document.querySelector('#iPkgName'),iPkgPrice=document.querySelector('#iPkgPrice');
+    const tbody=document.querySelector('#tbody'),qCliente=document.querySelector('#qCliente'),qTipo=document.querySelector('#qTipo'),qFecha=document.querySelector('#qFecha'),qDir=document.querySelector('#qDir'),qSubtotal=document.querySelector('#qSubtotal'),qTotal=document.querySelector('#qTotal'),qAnticipo=document.querySelector('#qAnticipo'),qSaldo=document.querySelector('#qSaldo'),qFolio=document.querySelector('#qFolio'),qFechaHoy=document.querySelector('#qFechaHoy');
+    const btnPDF=document.querySelector('#btnPDF');
+    let items=[];
+    const showCustomPkg=()=>{document.getElementById('customPkg').style.display=iPaquete.value==='__otro__'?'block':'none'};
+    function genFolio(){const base=Math.floor(Date.now()/1000)%10000;qFolio.textContent=300+(base%700)}
+    function hoy(){const d=new Date();qFechaHoy.textContent=d.toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'});window.__lastDateKey=d.toDateString()}
+    function recalc(){items=[];let descPkg='',price=0;if(iPaquete.value==='__otro__'){descPkg=`${iServicio.value} — ${iPkgName.value||'Paquete personalizado'}`;price=Number(iPkgPrice.value||0)}else{const opt=iPaquete.options[iPaquete.selectedIndex];price=Number(opt.dataset.price||0);descPkg=`${iServicio.value} — ${opt.value}`}
+      if(price>0){items.push({desc:descPkg,price})}
+      document.querySelectorAll('.extra').forEach(c=>{if(c.checked)items.push({desc:c.dataset.desc,price:Number(c.dataset.price)})});
+      const nota=iNotas.value.trim();if(nota)items.push({desc:`Notas: ${nota}`,price:0});
+      tbody.innerHTML='';let subtotal=0;items.forEach(it=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${it.desc}</td><td class='price'>${mx(it.price)}</td>`;tbody.appendChild(tr);subtotal+=it.price});
+      qSubtotal.textContent=mx(subtotal);qTotal.textContent=mx(subtotal);
+      const anticipo=Math.round(subtotal*0.30);qAnticipo.textContent=mx(anticipo);
+      qSaldo.textContent=mx(subtotal-anticipo);
+      qCliente.textContent=iNombre.value||'[Nombre del Cliente]';qTipo.textContent=iTipo.value||'[Tipo de Evento]';qFecha.textContent=fmtFecha(iFecha.value);qDir.textContent=iDireccion.value||'[Dirección del Evento]';}
+    [iNombre,iTipo,iFecha,iDireccion,iServicio,iPaquete,iNotas,iPkgName,iPkgPrice].forEach(el=>el.addEventListener('input',recalc));
+    document.querySelectorAll('.extra').forEach(el=>el.addEventListener('change',recalc));
+    iPaquete.addEventListener('change',()=>{showCustomPkg();recalc()});
+    btnPDF.addEventListener('click',()=>{const opt={margin:10,filename:`${(iNombre.value||'cliente').toLowerCase().replace(/[^a-z0-9]+/gi,'-')}-contrato-spinshot-${qFolio.textContent}.pdf`,image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,backgroundColor:'#0b1224'},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}};html2pdf().set(opt).from(document.querySelector('#quote')).save()});
+    genFolio();hoy();recalc();setInterval(()=>{const now=new Date();if(window.__lastDateKey!==now.toDateString())hoy()},60000);
+  </script>
+</body>
+</html>
