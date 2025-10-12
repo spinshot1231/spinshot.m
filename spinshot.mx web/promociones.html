@@ -5,35 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Promociones Especiales</title>
   <style>
+    /* Paleta brillante y efectos de brillo */
+    :root {
+      --accent: #ff3df0;          /* magenta neón */
+      --accent-2: #00e5ff;        /* cian neón */
+      --accent-warm: #ffb200;     /* dorado cálido */
+      --accent-danger: #ff4d6d;   /* rojo rosado brillante */
+      --text: #ffffff;            /* texto principal */
+      --bg-1: #090b1a;            /* fondo profundo */
+      --bg-2: #05060f;            /* fondo más oscuro */
+      --glow: 0 0 10px rgba(0,229,255,0.5), 0 0 20px rgba(255,61,240,0.35);
+      --glow-strong: 0 0 12px rgba(255,178,0,0.6), 0 0 28px rgba(255,77,109,0.5);
+    }
+
     body {
-      background-color: #000;
-      color: #fff;
+      background: radial-gradient(1200px 800px at 20% 10%, #0d1235 0%, var(--bg-1) 35%, var(--bg-2) 100%);
+      color: var(--text);
       font-family: Arial, sans-serif;
       text-align: center;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
     }
 
     h1 {
-      color: red;
+      color: var(--accent-2);
       margin-top: 20px;
-      font-size: 2rem;
+      font-size: 2.2rem;
+      letter-spacing: 0.5px;
+      text-shadow: var(--glow);
     }
 
     /* Contador */
     #countdown-container {
       font-size: 20px;
-      color: yellow;
+      color: var(--accent-warm);
       margin-top: 10px;
       margin-bottom: 20px;
       font-weight: bold;
+      text-shadow: var(--glow);
     }
 
     #countdown {
       font-size: 28px;
       font-weight: bold;
-      color: #ff3b3b;
+      color: var(--accent-danger);
       margin-top: 5px;
+      text-shadow: var(--glow-strong);
     }
 
     /* Contenedor promociones */
@@ -46,63 +64,78 @@
     }
 
     .promo-card {
-      background: linear-gradient(145deg, #1a1a1a, #000);
-      border: 2px solid red;
-      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(16,16,32,0.95), rgba(6,6,18,0.98)) padding-box,
+                  linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-warm)) border-box;
+      border: 2px solid transparent; /* Borde con degradado */
+      border-radius: 14px;
       padding: 20px;
       width: 300px;
       text-align: left;
       margin-bottom: 20px;
-      box-shadow: 0px 0px 10px rgba(255,0,0,0.4);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0px 0px 10px rgba(255,255,255,0.05), var(--glow);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+      backdrop-filter: blur(2px) saturate(110%);
     }
 
     .promo-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0px 0px 15px rgba(255,0,0,0.6);
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0px 0px 20px rgba(255,255,255,0.07), var(--glow-strong);
+      filter: brightness(1.05);
     }
 
     .promo-card h3 {
-      color: red;
+      color: var(--accent);
       margin-bottom: 10px;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
+      text-shadow: var(--glow);
     }
 
     .promo-card p.price {
-      font-size: 20px;
-      font-weight: bold;
+      font-size: 22px;
+      font-weight: 800;
       margin-bottom: 10px;
-      color: #ffcc00;
+      color: #ffe55c; /* dorado brillante */
+      text-shadow: 0 0 10px rgba(255,229,92,0.4);
+    }
+
+    .promo-card p {
+      color: #e6f7ff;
     }
 
     .promo-card ul {
       margin: 10px 0;
       padding-left: 20px;
       text-align: left;
+      color: #cfeaff;
     }
 
     .promo-card ul li {
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
 
     .whatsapp-btn {
       display: inline-block;
       margin-top: 10px;
       padding: 12px 15px;
-      background-color: #25D366;
+      background: linear-gradient(135deg, #34eb77 0%, #25D366 50%, #00b359 100%);
       color: white;
       text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
+      border-radius: 10px;
+      font-weight: 900;
       font-size: 15px;
       width: 100%;
       text-align: center;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35);
+      letter-spacing: 0.3px;
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
     .whatsapp-btn:hover {
-      background-color: #1ebe57;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(37, 211, 102, 0.45);
+      filter: saturate(115%);
     }
 
     /* Video bloqueado */
@@ -110,13 +143,13 @@
       width: 100%;
       max-width: 300px;
       margin-top: 10px;
-      border: 2px solid red;
-      border-radius: 8px;
-      pointer-events: none; /* Bloquea interacción */
-      user-select: none; /* No seleccionable */
+      border-radius: 10px;
       display: block;
       margin-left: auto;
       margin-right: auto;
+      background: linear-gradient(135deg, var(--accent-2), var(--accent));
+      padding: 2px;
+      box-shadow: var(--glow);
     }
 
     /* Responsive */
@@ -126,121 +159,173 @@
         align-items: center;
       }
     }
+      /* Banner superior pegajoso */
+    .promo-banner {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #0b0b0b;
+      font-weight: 900;
+      letter-spacing: .3px;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.35);
+    }
+    .promo-banner span {
+      display: inline-block;
+      background: #fff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      margin-left: 10px;
+      font-size: .9rem;
+    }
+
+    /* Botón flotante de WhatsApp */
+    .floating-whatsapp {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #34eb77, #25D366, #00b359);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 800;
+      box-shadow: 0 10px 28px rgba(37,211,102,.45), var(--glow);
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+      text-decoration: none;
+    }
+    .floating-whatsapp:hover { transform: translateY(-2px); }
+    .floating-whatsapp svg { width: 22px; height: 22px; }
+
+    /* Sección de notas rápidas */
+    .quick-notes { 
+      max-width: 980px; margin: 10px auto 28px; text-align: left; 
+      color: #d9f7ff; font-size: .95rem;
+    }
+    .quick-notes ul { 
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px 18px; 
+      padding-left: 18px; margin: 10px 0 0 0;
+    }
+    .quick-notes strong { color: var(--accent-2); }
   </style>
 </head>
 <body>
 
+  <div class="promo-banner" role="status" aria-live="polite">
+    ¡Últimos lugares de la temporada! <span>Atención inmediata por WhatsApp</span>
+  </div>
+
   <h1>Promociones Temáticas Festivas</h1>
   <div id="countdown-container">
-    🔥 Oferta de tiempo limitado - ¡Reserva ahora! 🔥 <br>
+    🔥 Oferta válida hasta fin de año - ¡Reserva ahora! 🔥 <br>
     <span id="countdown"></span>
   </div>
 
   <!-- Promociones -->
   <div class="promo-container">
 
-    <!-- POSICIÓN 1: COMBO 1: Espejo Mágico ÚNICO (PRECIO ESPECIAL $2000) -->
+    <!-- 1: Espejo Mágico Flash -->
     <div class="promo-card">
       <h3>✨ Espejo Mágico: El Flash Rápido</h3>
-      <p class="price">$2,000 MXN</p>
+      <p class="price">$2,099 MXN</p>
       <p>¡El paquete más económico para capturar el momento más glamuroso!</p>
       <ul>
         <li>**2 horas** de servicio de **Espejo Mágico**.</li>
         <li>**Utilería** festiva de alta calidad.</li>
         <li>**Alfombra** roja de entrada.</li>
-        <li>Fotos digitales **ilimitadas** (compartibles al instante).</li>
+        <li>Fotos digitales **ilimitadas**.</li>
         <li>Fotos impresas **limitadas (30 piezas)**.</li>
       </ul>
-      <a class="whatsapp-btn" onclick="enviarWhatsApp('Espejo Mágico: El Flash Rápido', '2,000 MXN', '2 horas de espejo mágico, utilería, alfombra, fotos digitales ilimitadas y 30 impresiones')">¡Reservar Flash!</a>
+      <a class="whatsapp-btn" onclick="enviarWhatsApp('Espejo Mágico: El Flash Rápido', '2,099 MXN', '2 horas de espejo mágico, utilería, alfombra, fotos digitales ilimitadas y 30 impresiones')">¡Reservar Flash!</a>
       <video autoplay loop muted playsinline class="promo-video">
         <source src="videos/bella.mp4" type="video/mp4">
       </video>
     </div>
 
-    <!-- POSICIÓN 2: COMBO 2: Cabina 360 - El Terror -->
+    <!-- 2: Cabina 360 Terror -->
     <div class="promo-card">
       <h3>💀 Cabina 360: Terror y Muerte</h3>
-      <p class="price">$1,500 MXN</p>
-      <p>¡El paquete más terrorífico! Vive la adrenalina de **Halloween y Día de Muertos**.</p>
+      <p class="price">$1,599 MXN</p>
+      <p>¡Vive la adrenalina de **Halloween y Día de Muertos** con videos épicos!</p>
       <ul>
         <li>**3 horas** de servicio de **Cabina 360**.</li>
         <li>Videos ilimitados con efectos **Slow Motion/Boomerang**.</li>
-        <li>Utilería **TEMÁTICA de todo tipo** (Terror, Día de Muertos, Halloween).</li>
-        <li>Luces **LED**, Staff profesional y compartición digital.</li>
+        <li>Utilería temática (Terror / Día de Muertos / Halloween).</li>
+        <li>Luces **LED**, staff profesional y compartición digital.</li>
       </ul>
-      <a class="whatsapp-btn" onclick="enviarWhatsApp('Cabina 360: Terror y Muerte (3 hrs)', '1,500 MXN', '3 horas de vídeos 360 ilimitados, utilería temática de terror/Día de Muertos')">¡Reservar Terror!</a>
-      <video autoplay loop muted playsinline class="promo-video">
-        <source src="videos/monoslocos.mp4" type="video/mp4">
-      </video>
-    </div>
-    
-    <!-- POSICIÓN 3: COMBO 3: DÚO BÁSICO (Combo ÉLITE) -->
-    <div class="promo-card">
-      <h3>🚀 Combo ÉLITE: Utilería VIP (3 hrs)</h3>
-      <p class="price">$3,800 MXN</p>
-      <p>Dúo de equipos con utilería y productos exclusivos. **¡Máximo impacto digital!**</p>
-      <ul>
-        <li>**3 horas** de servicio con **Espejo Mágico + Cabina 360**.</li>
-        <li>Videos 360 ilimitados y Fotos digitales ilimitadas.</li>
-        <li>**Utilería y Productos VIP** (exclusivos y de lujo).</li>
-        <li>*NO incluye fotos impresas de cortesía.*</li>
-      </ul>
-      <a class="whatsapp-btn" onclick="enviarWhatsApp('Combo ÉLITE: Utilería VIP (3 hrs)', '3,800 MXN', '3 horas de Cabina 360 + Espejo Mágico, utilería VIP y sin fotos impresas de cortesía')">¡Quiero el Combo ÉLITE!</a>
-      <video autoplay loop muted playsinline class="promo-video">
-        <source src="videos/ironman.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <!-- POSICIÓN 4: NUEVO PAQUETE: ECO ($1500) - MOVIDO AQUÍ -->
-    <div class="promo-card">
-      <h3>📸 Paquete ECO: Impresión Instantánea</h3>
-      <p class="price">$1,500 MXN</p>
-      <p>¡La opción más accesible para llevarte tus recuerdos impresos al momento!</p>
-      <ul>
-        <li>**2 horas** de servicio de **Cámara con Impresora Rápida**.</li>
-        <li>Impresiones fotográficas al instante.</li>
-        <li>Fotos digitales.</li>
-        <li>**Toda la Utilería** necesaria de los demás paquetes.</li>
-        <li>*NO incluye Espejo Mágico ni Cabina 360.*</li>
-      </ul>
-      <a class="whatsapp-btn" onclick="enviarWhatsApp('Paquete ECO: Impresión Instantánea', '1,500 MXN', '2 horas de cámara con impresión, fotos digitales y utilería completa. No incluye Espejo Mágico.')">¡Reservar ECO!</a>
+      <a class="whatsapp-btn" onclick="enviarWhatsApp('Cabina 360: Terror y Muerte (3 hrs)', '1,599 MXN', '3 horas de vídeos 360 ilimitados y utilería temática')">¡Reservar Terror!</a>
       <video autoplay loop muted playsinline class="promo-video">
         <source src="videos/monoslocos.mp4" type="video/mp4">
       </video>
     </div>
 
-    <!-- POSICIÓN 5: COMBO 4: DÚO PREMIUM - Cobertura Ilimitada -->
+    <!-- 3: Reemplazo del Combo ÉLITE -> Dúo (solo Espejo Mágico) -->
     <div class="promo-card">
-      <h3>💎 Dúo Premium: Fiesta Ilimitada (4 hrs)</h3>
-      <p class="price">$5,500 MXN</p>
-      <p>Máxima diversión y cobertura por 4 horas con **impresiones ilimitadas**.</p>
+      <h3>🚀 Dúo Espejo Mágico (3 hrs)</h3>
+      <p class="price">$2,699 MXN</p>
+      <p>Solo **Espejo Mágico** por 3 horas, con extras súper llamativos.</p>
       <ul>
-        <li>**4 horas** de servicio ininterrumpido.</li>
-        <li>Cabina 360 con video ilimitado.</li>
-        <li>Espejo Mágico con fotos digitales **ilimitadas**.</li>
-        <li>Fotos impresas **ILIMITADAS** (tamaño postal).</li>
-        <li>Utilería temática Premium y dos operadores.</li>
+        <li>Fotos **ilimitadas**.</li>
+        <li>Iluminación **LED**.</li>
+        <li>🎬 Montaje **VIP** (Alfombra, Fondo, Postes Unifila).</li>
+        <li>🎭 Utilería **básica**.</li>
+        <li>💸 Pistola de **Billetes**.</li>
+        <li>🫧 Pistola de **Burbujas**.</li>
+        <li>🎨 Plantilla de **diseño estándar**.</li>
+        <li>💾 **Galería Digital** (online 1 mes).</li>
       </ul>
-      <a class="whatsapp-btn" onclick="enviarWhatsApp('Dúo Premium: Fiesta Ilimitada (4 hrs)', '5,500 MXN', '4 horas de Cabina 360 + Espejo Mágico, impresiones ilimitadas y utilería premium')">¡Reservar Cobertura Total!</a>
+      <a class="whatsapp-btn" onclick="enviarWhatsApp('Dúo Espejo Mágico (3 hrs)', '2,699 MXN', 'Solo Espejo Mágico 3 horas con fotos ilimitadas y extras VIP')">¡Quiero este Dúo!</a>
       <video autoplay loop muted playsinline class="promo-video">
         <source src="videos/ironman.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <!-- 4: Nuevo paquete moderno: RECUERDITO -->
+    <div class="promo-card">
+      <h3>🪩 Recuerdito (2 hrs)</h3>
+      <p class="price">$2,699 MXN</p>
+      <p>Moderno y directo al corazón del evento: **fotos ilimitadas + 360 de acompañamiento**.</p>
+      <ul>
+        <li>**2 horas** solo **cámara** para fotos.</li>
+        <li>Impresiones **ilimitadas** al instante.</li>
+        <li>Cabina **360 de acompañamiento**.</li>
+      </ul>
+      <a class="whatsapp-btn" onclick="enviarWhatsApp('Recuerdito (2 hrs)', '2,699 MXN', 'Cámara 2 horas con impresiones ilimitadas y cabina 360 de acompañamiento')">¡Quiero mi Recuerdito!</a>
+      <video autoplay loop muted playsinline class="promo-video">
+        <source src="videos/bella.mp4" type="video/mp4">
       </video>
     </div>
 
   </div>
 
+  <!-- Notas rápidas de contratación -->
+  <section class="quick-notes" aria-label="Notas rápidas">
+    <strong>Incluye:</strong>
+    <ul>
+      <li>Montaje y desmontaje sin costo adicional.</li>
+      <li>Archivos digitales resguardados por 30 días.</li>
+      <li>Atención en eventos sociales y corporativos.</li>
+      <li>Opciones de personalización bajo solicitud.</li>
+    </ul>
+  </section>
+
   <script>
     // Función para enviar a WhatsApp
     function enviarWhatsApp(paquete, precio, descripcion) {
-      // Número de WhatsApp
       const mensaje = `Hola, me interesa la promoción ${paquete} (${precio}). Detalles: ${descripcion}. ¿Está disponible para reservar?`;
       const url = `https://wa.me/5214522195520?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
     }
 
     // Cuenta regresiva
-    // Se mantiene la fecha de Sep 1, 2025 para el temporizador.
-    const countdownDate = new Date("Sep 1, 2025 00:00:00").getTime();
+    // Reiniciado a fin de año actual
+    const countdownDate = new Date("Dec 31, 2025 23:59:59").getTime();
     const countdownElement = document.getElementById("countdown");
 
     const timer = setInterval(() => {
@@ -265,10 +350,16 @@
   <!-- Botón para volver a la calculadora -->
   <div style="text-align:center; margin: 30px 0;">
     <a href="calculadora.html" 
-       style="display:inline-block; padding: 12px 20px; background-color:#ff3b3b; color:#fff; text-decoration:none; font-size:16px; font-weight:bold; border-radius:8px;">
+       style="display:inline-block; padding: 12px 20px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color:#fff; text-decoration:none; font-size:16px; font-weight:bold; border-radius:10px; box-shadow: var(--glow);">
        Volver a la Calculadora
     </a>
   </div>
+
+  <!-- Botón flotante de WhatsApp -->
+  <a class="floating-whatsapp" aria-label="Abrir WhatsApp" onclick="enviarWhatsApp('Consulta general','-', 'Quiero cotizar y revisar disponibilidad para mi evento')">
+    <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M19.11 17.63c-.29-.14-1.69-.83-1.95-.92-.26-.1-.45-.14-.64.14-.19.29-.74.92-.9 1.11-.16.19-.33.22-.62.08-.29-.14-1.21-.45-2.31-1.45-.85-.76-1.43-1.7-1.6-1.99-.17-.29-.02-.45.13-.59.13-.13.29-.33.43-.5.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.14-.64-1.54-.87-2.11-.23-.55-.46-.47-.64-.48l-.55-.01c-.19 0-.5.07-.76.36-.26.29-1 1-1 2.43 0 1.43 1.03 2.8 1.17 2.99.14.19 2.03 3.1 4.92 4.34.69.3 1.23.48 1.65.62.69.22 1.32.19 1.82.12.56-.08 1.69-.69 1.93-1.36.24-.67.24-1.25.17-1.36-.07-.11-.26-.18-.55-.32z"/><path d="M16 3C9.92 3 5 7.92 5 14c0 2.44.87 4.69 2.32 6.46L6 29l8.73-1.29C16.5 27.9 16.25 28 16 28c6.08 0 11-4.92 11-11S22.08 3 16 3zm0 20.95c-1.28 0-2.54-.33-3.64-.95l-.26-.15-2.16.32.63-2.1-.17-.27A8.034 8.034 0 018 14c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8z"/></svg>
+    WhatsApp
+  </a>
 
 </body>
 </html>
